@@ -6,16 +6,31 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+"""This program runs automation tests to test http://jupiter.cloud.planittesting.com with multiple test cases
+"""
 
 @pytest.fixture
 def browser():
+    # This gets executed for every test. The chrome driver is loaded and closed at the end of the test.
     chrome_driver = webdriver.Chrome("./chromedriver.exe")
     chrome_driver.implicitly_wait(10)
     yield chrome_driver
     chrome_driver.quit()
 
 
-# Test case 1
+"""
+The following tests are written to test the test case
+
+Test case 1:
+-----------
+    From the home page go to contact page
+    Click submit button
+    Validate errors
+    Populate mandatory fields
+    Validate errors are gone
+"""
+
+
 def test_contact_page_for_mandatory_email_field(browser):
     # Loads the target page url
     browser.get('http://jupiter.cloud.planittesting.com')
@@ -93,7 +108,16 @@ def test_contact_page_for_mandatory_fields(browser):
     assert "but we won't get it unless you complete the form correctly" not in browser.page_source
 
 
-# Test case 2
+"""
+The following test is written to test the test case
+
+Test case 2:
+-----------
+    From the home page go to contact page
+    Populate mandatory fields
+    Click submit button
+    Validate successful submission message
+"""
 
 def test_contact_page_successful_submission(browser):
     # Loads the target page url
@@ -114,8 +138,20 @@ def test_contact_page_successful_submission(browser):
     sleep(7)
     assert "Thanks John" in browser.page_source
 
-# Test case 3
+"""
+The following tests are written to test the test case
 
+Test case 3: 
+-----------
+From the home page go to contact page
+Populate mandatory fields with invalid data
+Validate errors
+
+As there is no validation for the forename and message fields, they both are accepting any type of data including special chars. 
+Also there is no limit on  the number of chars. So the tests for those fields are not written.
+
+Tests to verify invalid email and invalid telephone number are written.
+"""
 
 def test_contact_page_with_invalid_email_data(browser):
     # Loads the target page url
@@ -151,6 +187,17 @@ def test_contact_page_with_invalid_telephone_data(browser):
     sleep(2)
 
 
+"""
+The following test is written to test the test case
+
+Test case 4:
+-----------
+From the home page go to shop page
+Click buy button 2 times on “Funny Cow”
+Click buy button 1 time on “Fluffy Bunny”
+Click the cart menu
+Verify the items are in the cart
+"""
 def test_cart_items(browser):
     # Loads the target page url
     browser.get('http://jupiter.cloud.planittesting.com')
