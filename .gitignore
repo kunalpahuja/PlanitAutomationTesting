@@ -1,0 +1,5 @@
+env/
+chromedriver.exe
+chromedriver
+__pycache__
+.pytest_cache
